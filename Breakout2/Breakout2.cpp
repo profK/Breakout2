@@ -25,7 +25,8 @@ int main()
     World world(Vector2f(0, 0));
 #pragma section //Make the Brick Wall
     PhysicsRectangle bricks[BRICKROWS * BRICKCOLUMNS];
-    int originX = (WINDOWSIZE.x + ((BRICKSIZE.x + BRICKBORDER.x) * (float)BRICKCOLUMNS))/2;
+    Vector2f brickAndBorderSize = BRICKSIZE + BRICKBORDER;
+    int originX = (WINDOWSIZE.x/2) - ((brickAndBorderSize.x * (float)BRICKCOLUMNS))/2;
     int originY = 100;
     for (int y = 0; y < BRICKROWS; y++) {
         for (int x = 0; x < BRICKCOLUMNS; x++) {
@@ -33,7 +34,7 @@ int main()
             Vector2f topLeft = Vector2f(
                 originX + ((BRICKSIZE.x + BRICKBORDER.x) * x),
                 originY + ((BRICKSIZE.y + BRICKBORDER.y) * y));
-            brick.setCenter((topLeft + BRICKSIZE + BRICKBORDER) / 2.0f);
+            brick.setCenter((topLeft + (BRICKSIZE + BRICKBORDER) / 2.0f));
             brick.setSize(BRICKSIZE);
             brick.setFillColor(Color::Green);
         }
