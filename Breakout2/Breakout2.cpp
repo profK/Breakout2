@@ -6,10 +6,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFPhysics.h>
 #include <list>
+#include "Ball.h"
+#include <chrono>
 
 using namespace std;
 using namespace sf;
 using namespace sfp;
+using namespace std::chrono;
 
 const Vector2f WINDWOSIZE(800, 600);
 const Vector2f BRICKSIZE(50, 20);
@@ -23,8 +26,8 @@ int main()
 {
     RenderWindow window(VideoMode(WINDOWSIZE.x,WINDOWSIZE.y),"Breakout2");
     World world(Vector2f(0, 0));
-#pragma section //Make the Brick Wall
-    PhysicsRectangle bricks[BRICKROWS * BRICKCOLUMNS];
+#pragma region MakeBricks
+    /*PhysicsRectangle bricks[BRICKROWS * BRICKCOLUMNS];
     Vector2f brickAndBorderSize = BRICKSIZE + BRICKBORDER;
     int originX = (WINDOWSIZE.x/2) - ((brickAndBorderSize.x * (float)BRICKCOLUMNS))/2;
     int originY = 100;
@@ -37,17 +40,38 @@ int main()
             brick.setCenter((topLeft + (BRICKSIZE + BRICKBORDER) / 2.0f));
             brick.setSize(BRICKSIZE);
             brick.setFillColor(Color::Green);
+       
         }
-    }
-#pragma endsection
+    }*/
+#pragma endregion Makes the brick wall
+
+#pragma region MakeBall
+    PhysicsCircle ball(Vector2f(400,550));
+   /*ball.setRadius(5);
+    ball.setCenter(Vector2f(400,550));*/
+    ball.applyImpulse(Vector2f(0, -5));
+    world.AddPhysicsBody(ball);
+
+#pragma endregion
+
+#pragma region GameLoop
+    system_clock::time_point lastTime = system_clock::now();
     while (true) {
+        system_clock::time_point current = system_clock::now();
+        unsigned int deltaMs =
+            duration_cast<std::chrono::milliseconds>(
+                current - lastTime).count();
+        world.UpdatePhysics(deltaMs);
+        lastTime = current;
         window.clear();
-        for (auto brick : bricks) {
+       /* for (auto brick : bricks) {
             window.draw(brick);
-        }
+        }*/
+        window.draw(ball);
         window.display();
     }
     return 0;
+#pragma endregion The update/render loop
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
