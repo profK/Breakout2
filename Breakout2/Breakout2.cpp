@@ -37,10 +37,11 @@ int main()
             Vector2f topLeft = Vector2f(
                 originX + ((BRICKSIZE.x + BRICKBORDER.x) * x),
                 originY + ((BRICKSIZE.y + BRICKBORDER.y) * y));
-            brick.setCenter((topLeft + (BRICKSIZE + BRICKBORDER) / 2.0f));
             brick.setSize(BRICKSIZE);
+            brick.setCenter((topLeft + (BRICKSIZE + BRICKBORDER) / 2.0f));
             brick.setFillColor(Color::Green);
-       
+            brick.setStatic(true);
+            world.AddPhysicsBody(brick);
         }
     }
 #pragma endregion Makes the brick wall
@@ -49,7 +50,7 @@ int main()
     PhysicsCircle ball(Vector2f(400,550));
     ball.setRadius(5);
     ball.setCenter(Vector2f(400,550));
-    ball.applyImpulse(Vector2f(0.1, -0.1));
+    ball.applyImpulse(Vector2f(0.05, -0.1));
     world.AddPhysicsBody(ball);
 
 #pragma endregion
@@ -73,6 +74,7 @@ int main()
             window.draw(brick);
         }
         window.draw(ball);
+        world.VisualizeAllBounds(window);
         window.display();
     }
     return 0;

@@ -11,13 +11,18 @@ using namespace sf;
 int main()
 {
 	World world(Vector2f(0, 10));
-	PhysicsCircle circle(Vector2f(100, 100), 50);
+	PhysicsCircle circle;
+	circle.setRadius(50);
+	circle.setCenter(Vector2f(100, 100));
 	world.AddPhysicsBody(circle);
 	PhysicsRectangle fallingRect(Vector2f(20, 60), Vector2f(40, 120));
 	world.AddPhysicsBody(fallingRect);
 	//world.AddPhysicsObject(
 	//	DynamicPhysicsObject(AABB(Vector2f(20, 20), Vector2f(40, 40))));
-	PhysicsRectangle floor(Vector2f(400, 575), Vector2f(800, 50), true);
+	PhysicsRectangle floor;
+	floor.setSize(Vector2f(800, 50));
+	floor.setCenter(Vector2f(400, 575));
+	floor.setStatic(true);
 	world.AddPhysicsBody(floor);
 	RenderWindow window(VideoMode(800, 600), "Test Window");
 	system_clock::time_point last = system_clock::now();
@@ -26,12 +31,15 @@ int main()
 		system_clock::time_point current = system_clock::now();
 		unsigned int deltaMs =
 			std::chrono::duration_cast<std::chrono::milliseconds>(current - last).count();
+		if (deltaMs == 0) {
+			continue;
+		}
 		world.UpdatePhysics(deltaMs);
 		last = current;
 		world.VisualizeAllBounds(window);
-		window.draw(circle);
-		window.draw(fallingRect);
-		window.draw(floor);
+		//window.draw(circle);
+		//window.draw(fallingRect);
+		//window.draw(floor);
 		window.display();
 	}
 }
