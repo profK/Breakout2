@@ -27,7 +27,7 @@ int main()
     RenderWindow window(VideoMode(WINDOWSIZE.x,WINDOWSIZE.y),"Breakout2");
     World world(Vector2f(0, 0));
 #pragma region MakeBricks
-    /*PhysicsRectangle bricks[BRICKROWS * BRICKCOLUMNS];
+    PhysicsRectangle bricks[BRICKROWS * BRICKCOLUMNS];
     Vector2f brickAndBorderSize = BRICKSIZE + BRICKBORDER;
     int originX = (WINDOWSIZE.x/2) - ((brickAndBorderSize.x * (float)BRICKCOLUMNS))/2;
     int originY = 100;
@@ -42,14 +42,14 @@ int main()
             brick.setFillColor(Color::Green);
        
         }
-    }*/
+    }
 #pragma endregion Makes the brick wall
 
 #pragma region MakeBall
     PhysicsCircle ball(Vector2f(400,550));
-   /*ball.setRadius(5);
-    ball.setCenter(Vector2f(400,550));*/
-    ball.applyImpulse(Vector2f(0, -5));
+    ball.setRadius(5);
+    ball.setCenter(Vector2f(400,550));
+    ball.applyImpulse(Vector2f(0.1, -0.1));
     world.AddPhysicsBody(ball);
 
 #pragma endregion
@@ -61,12 +61,17 @@ int main()
         unsigned int deltaMs =
             duration_cast<std::chrono::milliseconds>(
                 current - lastTime).count();
-        world.UpdatePhysics(deltaMs);
+        if (deltaMs == 0) {
+            // skip frame
+            continue;
+        }
         lastTime = current;
+        world.UpdatePhysics(deltaMs);
+      
         window.clear();
-       /* for (auto brick : bricks) {
+        for (auto brick : bricks) {
             window.draw(brick);
-        }*/
+        }
         window.draw(ball);
         window.display();
     }
