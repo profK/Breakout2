@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\SFPhysics.0.1.13\build\SFPhysics.props" Condition="Exists('..\packages\SFPhysics.0.1.13\build\SFPhysics.props')" />
+  <Import Project="..\packages\SFPhysics.0.1.16\build\SFPhysics.props" Condition="Exists('..\packages\SFPhysics.0.1.16\build\SFPhysics.props')" />
   <Import Project="..\packages\SFML_VS2019.1.0.0\build\SFML_VS2019.props" Condition="Exists('..\packages\SFML_VS2019.1.0.0\build\SFML_VS2019.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -118,6 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,17 +144,19 @@
   <ItemGroup>
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Breakout2.cpp" />
+    <ClCompile Include="Brick.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
+    <ClInclude Include="Brick.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\SFML_VS2019.1.0.0\build\SFML_VS2019.targets" Condition="Exists('..\packages\SFML_VS2019.1.0.0\build\SFML_VS2019.targets')" />
-    <Import Project="..\packages\SFPhysics.0.1.13\build\SFPhysics.targets" Condition="Exists('..\packages\SFPhysics.0.1.13\build\SFPhysics.targets')" />
+    <Import Project="..\packages\SFPhysics.0.1.16\build\SFPhysics.targets" Condition="Exists('..\packages\SFPhysics.0.1.16\build\SFPhysics.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -161,7 +164,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\SFML_VS2019.1.0.0\build\SFML_VS2019.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SFML_VS2019.1.0.0\build\SFML_VS2019.props'))" />
     <Error Condition="!Exists('..\packages\SFML_VS2019.1.0.0\build\SFML_VS2019.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SFML_VS2019.1.0.0\build\SFML_VS2019.targets'))" />
-    <Error Condition="!Exists('..\packages\SFPhysics.0.1.13\build\SFPhysics.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SFPhysics.0.1.13\build\SFPhysics.props'))" />
-    <Error Condition="!Exists('..\packages\SFPhysics.0.1.13\build\SFPhysics.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SFPhysics.0.1.13\build\SFPhysics.targets'))" />
+    <Error Condition="!Exists('..\packages\SFPhysics.0.1.16\build\SFPhysics.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SFPhysics.0.1.16\build\SFPhysics.props'))" />
+    <Error Condition="!Exists('..\packages\SFPhysics.0.1.16\build\SFPhysics.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SFPhysics.0.1.16\build\SFPhysics.targets'))" />
   </Target>
 </Project>

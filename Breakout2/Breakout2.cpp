@@ -8,6 +8,7 @@
 #include <list>
 #include "Ball.h"
 #include <chrono>
+#include "Brick.h"
 
 using namespace std;
 using namespace sf;
@@ -27,13 +28,13 @@ int main()
     RenderWindow window(VideoMode(WINDOWSIZE.x,WINDOWSIZE.y),"Breakout2");
     World world(Vector2f(0, 0));
 #pragma region MakeBricks
-    PhysicsRectangle bricks[BRICKROWS * BRICKCOLUMNS];
+    Brick bricks[BRICKROWS * BRICKCOLUMNS];
     Vector2f brickAndBorderSize = BRICKSIZE + BRICKBORDER;
     int originX = (WINDOWSIZE.x/2) - ((brickAndBorderSize.x * (float)BRICKCOLUMNS))/2;
     int originY = 100;
     for (int y = 0; y < BRICKROWS; y++) {
         for (int x = 0; x < BRICKCOLUMNS; x++) {
-            PhysicsRectangle& brick = bricks[x + (y * BRICKCOLUMNS)];
+            Brick& brick = bricks[x + (y * BRICKCOLUMNS)];
             Vector2f topLeft = Vector2f(
                 originX + ((BRICKSIZE.x + BRICKBORDER.x) * x),
                 originY + ((BRICKSIZE.y + BRICKBORDER.y) * y));
@@ -70,8 +71,14 @@ int main()
         world.UpdatePhysics(deltaMs);
       
         window.clear();
-        for (auto brick : bricks) {
-            window.draw(brick);
+        for (auto& brick : bricks) {
+            if (brick.collided) {
+                world.RemovePhysicsBody(brick);
+            }
+            else {
+                window.draw(brick);
+            }
+           
         }
         window.draw(ball);
         world.VisualizeAllBounds(window);
