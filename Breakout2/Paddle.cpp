@@ -1,7 +1,7 @@
 #include "Paddle.h"
 #include <SFML/Window.hpp>
 
-const int movePPMs = 1;
+const float movePPMs = 1;
 
 Paddle::Paddle():
 	PhysicsRectangle(Vector2f(400,575),Vector2f(150,25),true)
