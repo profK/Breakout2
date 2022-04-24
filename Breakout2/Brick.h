@@ -8,8 +8,9 @@ class Brick :
 {
 
 public:
+    enum STATE {ACTIVE,COLLIDED,REMOVED};
     Brick();
-    bool collided;
+    STATE state;
     virtual void collisionCallback(PhysicsBodyCollisionResult& collision) override;
 };
 

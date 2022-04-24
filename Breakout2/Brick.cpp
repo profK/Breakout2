@@ -1,9 +1,9 @@
 #include "Brick.h"
 
 
-Brick::Brick() : collided(false){}
+Brick::Brick() : state(ACTIVE){}
 
 void Brick::collisionCallback(PhysicsBodyCollisionResult& collision)
 {
-	collided = true;
+	state = COLLIDED;
 }

@@ -53,7 +53,6 @@ int main()
     ball.setCenter(Vector2f(400,550));
     ball.applyImpulse(Vector2f(0.05, -0.1));
     world.AddPhysicsBody(ball);
-
 #pragma endregion
 
 #pragma region GameLoop
@@ -72,13 +71,16 @@ int main()
       
         window.clear();
         for (auto& brick : bricks) {
-            if (brick.collided) {
-                world.RemovePhysicsBody(brick);
-            }
-            else {
+            switch (brick.state) {
+            case Brick::STATE::ACTIVE:
                 window.draw(brick);
-            }
-           
+                break;
+            case Brick::STATE::COLLIDED:
+                world.RemovePhysicsBody(brick);
+                brick.state = Brick::STATE::REMOVED;
+                break;
+            
+            }           
         }
         window.draw(ball);
         world.VisualizeAllBounds(window);
