@@ -4,7 +4,7 @@
 const float movePPMs = 1;
 
 Paddle::Paddle():
-	PhysicsRectangle(Vector2f(400,575),Vector2f(150,25),true)
+	PhysicsRectangle(Vector2f(400,580),Vector2f(75,20),true)
 {
 
 }

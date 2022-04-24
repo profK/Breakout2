@@ -52,7 +52,7 @@ int main()
     PhysicsCircle ball(Vector2f(400,550));
     ball.setRadius(5);
     ball.setCenter(Vector2f(400,550));
-    ball.applyImpulse(Vector2f(0.05, -0.1));
+    ball.applyImpulse(Vector2f(0.05, -0.1)*5.0f);
     world.AddPhysicsBody(ball);
 #pragma endregion
 
@@ -61,13 +61,20 @@ int main()
     world.AddPhysicsBody(paddle);
 #pragma 
 
+#pragma borders
+    PhysicsRectangle leftBorder(Vector2f(6, 300), Vector2f(10, 600),true);
+    world.AddPhysicsBody(leftBorder);
+    PhysicsRectangle rightBorder(Vector2f(794, 300), Vector2f(10, 600),true);
+    world.AddPhysicsBody(rightBorder);
+    PhysicsRectangle topBorder(Vector2f(400, 6), Vector2f(800, 10),true);
+    world.AddPhysicsBody(topBorder);
 #pragma region GameLoop
-    system_clock::time_point lastTime = system_clock::now();
+    Clock clock;
+    Time lastTime = clock.getElapsedTime();
     while (true) {
-        system_clock::time_point current = system_clock::now();
+        Time current = clock.getElapsedTime();
         unsigned int deltaMs =
-            duration_cast<std::chrono::milliseconds>(
-                current - lastTime).count();
+            (current - lastTime).asMilliseconds();
         if (deltaMs == 0) {
             // skip frame
             continue;
@@ -89,6 +96,9 @@ int main()
         }
         window.draw(ball);
         window.draw(paddle);
+        window.draw(leftBorder);
+        window.draw(rightBorder);
+        window.draw(topBorder);
         world.VisualizeAllBounds(window);
         window.display();
     }
