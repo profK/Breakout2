@@ -7,3 +7,8 @@ void Brick::collisionCallback(PhysicsBodyCollisionResult& collision)
 {
 	state = COLLIDED;
 }
+
+void Brick::updateCallback(unsigned int deltaMS)
+{
+	//nop
+}

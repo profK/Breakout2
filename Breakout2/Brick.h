@@ -12,5 +12,6 @@ public:
     Brick();
     STATE state;
     virtual void collisionCallback(PhysicsBodyCollisionResult& collision) override;
+    virtual void updateCallback(unsigned int deltaMS) override;
 };
 

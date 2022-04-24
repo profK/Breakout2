@@ -9,6 +9,7 @@
 #include "Ball.h"
 #include <chrono>
 #include "Brick.h"
+#include "Paddle.h"
 
 using namespace std;
 using namespace sf;
@@ -55,6 +56,11 @@ int main()
     world.AddPhysicsBody(ball);
 #pragma endregion
 
+#pragma MakePaddle
+    Paddle paddle;
+    world.AddPhysicsBody(paddle);
+#pragma 
+
 #pragma region GameLoop
     system_clock::time_point lastTime = system_clock::now();
     while (true) {
@@ -68,7 +74,6 @@ int main()
         }
         lastTime = current;
         world.UpdatePhysics(deltaMs);
-      
         window.clear();
         for (auto& brick : bricks) {
             switch (brick.state) {
@@ -83,6 +88,7 @@ int main()
             }           
         }
         window.draw(ball);
+        window.draw(paddle);
         world.VisualizeAllBounds(window);
         window.display();
     }
