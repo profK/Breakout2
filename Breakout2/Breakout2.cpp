@@ -10,6 +10,7 @@
 #include <chrono>
 #include "Brick.h"
 #include "Paddle.h"
+#include "BottomBorder.h"
 
 using namespace std;
 using namespace sf;
@@ -61,17 +62,20 @@ int main()
     world.AddPhysicsBody(paddle);
 #pragma 
 
-#pragma borders
+#pragma region borders
     PhysicsRectangle leftBorder(Vector2f(6, 300), Vector2f(10, 600),true);
     world.AddPhysicsBody(leftBorder);
     PhysicsRectangle rightBorder(Vector2f(794, 300), Vector2f(10, 600),true);
     world.AddPhysicsBody(rightBorder);
     PhysicsRectangle topBorder(Vector2f(400, 6), Vector2f(800, 10),true);
     world.AddPhysicsBody(topBorder);
+    BottomBorder bottomBorder(ball);
+    world.AddPhysicsBody(bottomBorder);
+#pragma endregion
 #pragma region GameLoop
     Clock clock;
     Time lastTime = clock.getElapsedTime();
-    while (true) {
+    while (!bottomBorder.collided) {
         Time current = clock.getElapsedTime();
         unsigned int deltaMs =
             (current - lastTime).asMilliseconds();
