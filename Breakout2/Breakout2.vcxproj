@@ -147,6 +147,7 @@
     <ClCompile Include="Breakout2.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Paddle.cpp" />
+    <ClCompile Include="ScoreKeeper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -156,6 +157,7 @@
     <ClInclude Include="BottomBorder.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Paddle.h" />
+    <ClInclude Include="ScoreKeeper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,6 +11,7 @@
 #include "Brick.h"
 #include "Paddle.h"
 #include "BottomBorder.h"
+#include "ScoreKeeper.h"
 
 using namespace std;
 using namespace sf;
@@ -29,6 +30,16 @@ int main()
 {
     RenderWindow window(VideoMode(WINDOWSIZE.x,WINDOWSIZE.y),"Breakout2");
     World world(Vector2f(0, 0));
+
+#pragma region MakeGameOver
+    Font fnt;
+    if (!fnt.loadFromFile("arial.ttf")) {
+        cout << "Couldnt load arial.ttf" << endl;
+        exit(1);
+    }
+    ScoreKeeper score(fnt);
+#pragma endregion
+
 #pragma region MakeBricks
     Brick bricks[BRICKROWS * BRICKCOLUMNS];
     Vector2f brickAndBorderSize = BRICKSIZE + BRICKBORDER;
@@ -104,6 +115,7 @@ int main()
         window.draw(rightBorder);
         window.draw(topBorder);
         world.VisualizeAllBounds(window);
+        //window.draw(score);
         window.display();
     }
     return 0;
