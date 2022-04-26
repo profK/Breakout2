@@ -68,10 +68,10 @@ int main()
     world.AddPhysicsBody(ball);
 #pragma endregion
 
-#pragma MakePaddle
+#pragma region MakePaddle
     Paddle paddle;
     world.AddPhysicsBody(paddle);
-#pragma 
+#pragma endregion
 
 #pragma region borders
     PhysicsRectangle leftBorder(Vector2f(6, 300), Vector2f(10, 600),true);
@@ -105,6 +105,7 @@ int main()
             case Brick::STATE::COLLIDED:
                 world.RemovePhysicsBody(brick);
                 brick.state = Brick::STATE::REMOVED;
+                score.setScore(score.getScore() + 5);
                 break;
             
             }           
@@ -114,6 +115,7 @@ int main()
         window.draw(leftBorder);
         window.draw(rightBorder);
         window.draw(topBorder);
+        window.draw(score);
         world.VisualizeAllBounds(window);
         //window.draw(score);
         window.display();

@@ -20,7 +20,7 @@ void ScoreKeeper::setScore(int s)
 	for(int i=6;i>=0;i--){
 		int digit = s / pow(10, i);
 		txt.append(to_string(digit));
-		s -= s * pow(10, i);
+		s -= digit * pow(10, i);
 	}
 	setString(txt);
 	FloatRect tbounds = getGlobalBounds();
