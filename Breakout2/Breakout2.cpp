@@ -24,6 +24,8 @@ const Vector2f BRICKBORDER(10, 10);
 const Vector2f WINDOWSIZE(800, 600);
 const int BRICKROWS = 8;
 const int BRICKCOLUMNS = 8;
+const int WINDOWBORDER = 20;
+const int BALLCOUNT = 5;
 
 
 int main()
@@ -74,11 +76,11 @@ int main()
 #pragma endregion
 
 #pragma region borders
-    PhysicsRectangle leftBorder(Vector2f(6, 300), Vector2f(10, 600),true);
+    PhysicsRectangle leftBorder(Vector2f(6, 300), Vector2f(WINDOWBORDER, 600),true);
     world.AddPhysicsBody(leftBorder);
-    PhysicsRectangle rightBorder(Vector2f(794, 300), Vector2f(10, 600),true);
+    PhysicsRectangle rightBorder(Vector2f(794, 300), Vector2f(WINDOWBORDER, 600),true);
     world.AddPhysicsBody(rightBorder);
-    PhysicsRectangle topBorder(Vector2f(400, 6), Vector2f(800, 10),true);
+    PhysicsRectangle topBorder(Vector2f(400, 6), Vector2f(800, WINDOWBORDER),true);
     world.AddPhysicsBody(topBorder);
     BottomBorder bottomBorder(ball);
     world.AddPhysicsBody(bottomBorder);
@@ -86,7 +88,9 @@ int main()
 #pragma region GameLoop
     Clock clock;
     Time lastTime = clock.getElapsedTime();
-    while (!bottomBorder.collided) {
+    bool done = false;
+    int ballCount = BALLCOUNT;
+    while (!done) {
         Time current = clock.getElapsedTime();
         unsigned int deltaMs =
             (current - lastTime).asMilliseconds();
@@ -97,10 +101,12 @@ int main()
         lastTime = current;
         world.UpdatePhysics(deltaMs);
         window.clear();
+        done = true;
         for (auto& brick : bricks) {
             switch (brick.state) {
             case Brick::STATE::ACTIVE:
                 window.draw(brick);
+                done = false;
                 break;
             case Brick::STATE::COLLIDED:
                 world.RemovePhysicsBody(brick);
@@ -110,6 +116,16 @@ int main()
             
             }           
         }
+        if (bottomBorder.collided) {
+            if (ballCount == 1) { // drained last ball
+                done = true;
+            }else {
+                ballCount--;
+                ball.setCenter(Vector2f(400, 550));
+                ball.setVelocity(Vector2f(0.05, -0.1) * 5.0f);
+                bottomBorder.collided = false; // reset collisio
+            }
+        }
         window.draw(ball);
         window.draw(paddle);
         window.draw(leftBorder);
@@ -117,7 +133,19 @@ int main()
         window.draw(topBorder);
         window.draw(score);
         world.VisualizeAllBounds(window);
-        //window.draw(score);
+        window.display();
+    }
+
+
+    //end game loop
+    Text endText;
+    endText.setFont(fnt);
+    endText.setString("GAME OVER");
+    FloatRect sz = endText.getGlobalBounds();
+    endText.setPosition(Vector2f(400 - (sz.width / 2), 300 - (sz.height / 2)));
+    while (true) {
+        window.clear();
+        window.draw(endText);
         window.display();
     }
     return 0;
