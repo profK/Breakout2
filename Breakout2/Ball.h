@@ -7,5 +7,6 @@ class Ball :
 {
 public:
     Ball();
+    virtual void collisionCallback(PhysicsBodyCollisionResult& collision) override;
 };
 
