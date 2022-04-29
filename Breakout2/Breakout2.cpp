@@ -76,11 +76,11 @@ int main()
 #pragma endregion
 
 #pragma region borders
-    PhysicsRectangle leftBorder(Vector2f(6, 300), Vector2f(WINDOWBORDER, 600),true);
+    PhysicsRectangle leftBorder(Vector2f(WINDOWBORDER/2, 300), Vector2f(WINDOWBORDER, 600),true);
     world.AddPhysicsBody(leftBorder);
-    PhysicsRectangle rightBorder(Vector2f(794, 300), Vector2f(WINDOWBORDER, 600),true);
+    PhysicsRectangle rightBorder(Vector2f(800-(WINDOWBORDER/2), 300), Vector2f(WINDOWBORDER, 600), true);
     world.AddPhysicsBody(rightBorder);
-    PhysicsRectangle topBorder(Vector2f(400, 6), Vector2f(800, WINDOWBORDER),true);
+    PhysicsRectangle topBorder(Vector2f(400, WINDOWBORDER/2), Vector2f(800, WINDOWBORDER),true);
     world.AddPhysicsBody(topBorder);
     BottomBorder bottomBorder(ball);
     world.AddPhysicsBody(bottomBorder);
