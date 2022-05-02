@@ -4,9 +4,11 @@
 const float movePPMs = 1;
 
 Paddle::Paddle():
-	PhysicsRectangle(Vector2f(400,580),Vector2f(75,20),true)
+	PhysicsRectangle()
 {
-
+	setCenter(Vector2f(400, 580));
+	setSize(Vector2f(75, 20));
+	getBody().setStatic(true);
 }
 
 void Paddle::updateCallback(unsigned int deltaMS)

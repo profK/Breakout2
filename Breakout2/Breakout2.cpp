@@ -55,35 +55,44 @@ int main()
                 originY + ((BRICKSIZE.y + BRICKBORDER.y) * y));
             brick.setSize(BRICKSIZE);
             brick.setCenter((topLeft + (BRICKSIZE + BRICKBORDER) / 2.0f));
-            brick.setFillColor(Color::Green);
-            brick.setStatic(true);
-            world.AddPhysicsBody(brick);
+            brick.getShape().setFillColor(Color::Green);
+            brick.getBody().setStatic(true);
+            world.AddPhysicsBody(brick.getBody());
         }
     }
 #pragma endregion Makes the brick wall
 
 #pragma region MakeBall
-    PhysicsCircle ball(Vector2f(400,550));
-    ball.setRadius(5);
+    PhysicsCircle ball;
+    ball.setSize(Vector2f(5,5));
     ball.setCenter(Vector2f(400,550));
-    ball.applyImpulse(Vector2f(0.05, -0.1)*5.0f);
-    world.AddPhysicsBody(ball);
+    ball.getBody().applyImpulse(Vector2f(0.05, -0.1)*3.0f);
+    world.AddPhysicsBody(ball.getBody());
 #pragma endregion
 
 #pragma region MakePaddle
     Paddle paddle;
-    world.AddPhysicsBody(paddle);
+    world.AddPhysicsBody(paddle.getBody());
 #pragma endregion
 
 #pragma region borders
-    PhysicsRectangle leftBorder(Vector2f(WINDOWBORDER/2, 300), Vector2f(WINDOWBORDER, 600),true);
-    world.AddPhysicsBody(leftBorder);
-    PhysicsRectangle rightBorder(Vector2f(800-(WINDOWBORDER/2), 300), Vector2f(WINDOWBORDER, 600), true);
-    world.AddPhysicsBody(rightBorder);
-    PhysicsRectangle topBorder(Vector2f(400, WINDOWBORDER/2), Vector2f(800, WINDOWBORDER),true);
-    world.AddPhysicsBody(topBorder);
-    BottomBorder bottomBorder(ball);
-    world.AddPhysicsBody(bottomBorder);
+    PhysicsRectangle leftBorder;
+    leftBorder.setCenter(Vector2f(WINDOWBORDER / 2, 300));
+    leftBorder.setSize(Vector2f(WINDOWBORDER, 600));
+    leftBorder.getBody().setStatic(true);
+    world.AddPhysicsBody(leftBorder.getBody());
+    PhysicsRectangle rightBorder;
+    rightBorder.setCenter(Vector2f(800 - (WINDOWBORDER / 2), 300));
+    rightBorder.setSize(Vector2f(WINDOWBORDER, 600));
+    rightBorder.getBody().setStatic(true);
+    world.AddPhysicsBody(rightBorder.getBody());
+    PhysicsRectangle topBorder;
+    topBorder.setCenter(Vector2f(400, WINDOWBORDER / 2));
+    topBorder.setSize(Vector2f(800, WINDOWBORDER));
+    topBorder.getBody().setStatic(true);
+    world.AddPhysicsBody(topBorder.getBody());
+    BottomBorder bottomBorder(ball.getBody());
+    world.AddPhysicsBody(bottomBorder.getBody());
 #pragma endregion
 #pragma region GameLoop
     Clock clock;
@@ -105,11 +114,11 @@ int main()
         for (auto& brick : bricks) {
             switch (brick.state) {
             case Brick::STATE::ACTIVE:
-                window.draw(brick);
+                window.draw(brick.getShape());
                 done = false;
                 break;
             case Brick::STATE::COLLIDED:
-                world.RemovePhysicsBody(brick);
+                world.RemovePhysicsBody(brick.getBody());
                 brick.state = Brick::STATE::REMOVED;
                 score.setScore(score.getScore() + 5);
                 break;
@@ -122,15 +131,15 @@ int main()
             }else {
                 ballCount--;
                 ball.setCenter(Vector2f(400, 550));
-                ball.setVelocity(Vector2f(0.05, -0.1) * 5.0f);
+                ball.getBody().setVelocity(Vector2f(0.05, -0.1) * 3.0f);
                 bottomBorder.collided = false; // reset collisio
             }
         }
-        window.draw(ball);
-        window.draw(paddle);
-        window.draw(leftBorder);
-        window.draw(rightBorder);
-        window.draw(topBorder);
+        window.draw(ball.getShape());
+        window.draw(paddle.getShape());
+        window.draw(leftBorder.getShape());
+        window.draw(rightBorder.getShape());
+        window.draw(topBorder.getShape());
         window.draw(score);
         world.VisualizeAllBounds(window);
         window.display();

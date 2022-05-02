@@ -1,10 +1,12 @@
 #include "BottomBorder.h"
 
 BottomBorder::BottomBorder(PhysicsBody& ballBody):
-	PhysicsRectangle(Vector2f(400,597.5),Vector2f(800,5),true),
+	PhysicsRectangle(),
 	ballBody(ballBody)
 {
-	
+	setCenter(Vector2f(400, 597.5));
+	setSize(Vector2f(800, 5));
+	getBody().setStatic(true);
 }
 
 void BottomBorder::collisionCallback(PhysicsBodyCollisionResult& collision)
